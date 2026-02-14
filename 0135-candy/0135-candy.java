@@ -2,30 +2,38 @@ class Solution {
     public int candy(int[] ratings) {
         int n=ratings.length;
 
-        int LtoR[]=new int[n];
-        int RtoL[]=new int[n];
+        int candy=n;
+        int i=1;
 
-        Arrays.fill(LtoR,1);
-        Arrays.fill(RtoL,1);
+        while(i<n){
+            if(ratings[i]==ratings[i-1]){
+                i++;
+                continue;
+            }
 
-        for(int i=1;i<n;i++){
+            //increasing slope
+            int peak=0;
             if(ratings[i]>ratings[i-1]){
-                LtoR[i]=Math.max(LtoR[i],LtoR[i-1]+1);
+                peak++;
+                candy+=peak;
+                i++;
+
+                if(i==n){
+                    return candy;
+                }
             }
-        }
-        
-        for(int i=n-2;i>=0;i--){
-            if(ratings[i]>ratings[i+1]){
-                RtoL[i]=Math.max(RtoL[i],RtoL[i+1]+1);
+
+            //decreasing slope
+            int dip=0;
+
+            if(i<n && ratings[i]<ratings[i-1]){
+                dip++;
+                candy+=dip;
+                i++;
             }
+
+            candy=candy-Math.min(peak,dip);
         }
-
-        int result=0;
-
-        for(int i=0;i<n;i++){
-            result+=Math.max(LtoR[i],RtoL[i]);
-        }
-
-        return result;
+        return candy;
     }
 }
