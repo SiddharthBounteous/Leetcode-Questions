@@ -5,6 +5,13 @@ class Solution {
         char ans[]=result.toCharArray();
         int n=ans.length;
 
-        return ans[n-1].length();
+        int count=0;
+        for(int i=n-1;i>=0;i--){
+            if(ans[i]==' '){
+                break;
+            }
+            count++;
+        }
+        return count;
     }
 }
